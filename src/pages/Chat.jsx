@@ -12,7 +12,6 @@ import {
   ListGroup,
   Row,
 } from "react-bootstrap";
-import { ReadyState } from "react-use-websocket";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import messages_re from "./../assets/undraw_messages_re_qy9x.svg";
 
@@ -29,22 +28,19 @@ function Chat() {
   const [messages_text, setMessages_text] = useState("");
   const [messages_user_receives, setMessages_user_receives] = useState("");
 
-  const { sendMessage, readyState } = useWebSocket(
-    "ws://127.0.0.1:8080",
-    {
-      onOpen: () => {
-        console.log("WebSocket connection established.");
-      },
-      onMessage: (e) => {
-        if (JSON.parse(e.data).idusers === actualChat.idusers) {
-          handleReadMessages(actualChat);
-        }
-      },
-      onClose: (e) => {
-        console.log(e);
-      },
-    }
-  );
+  const { sendMessage, readyState } = useWebSocket("ws://127.0.0.1:8080", {
+    onOpen: () => {
+      console.log("WebSocket connection established.");
+    },
+    onMessage: (e) => {
+      if (JSON.parse(e.data).idusers === actualChat.idusers) {
+        handleReadMessages(actualChat);
+      }
+    },
+    onClose: (e) => {
+      console.log(e);
+    },
+  });
 
   const handleReadUsers = () => {
     axios
@@ -117,14 +113,6 @@ function Chat() {
     handleReadUsers();
   }, []);
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
-
   return (
     <Container fluid>
       <div className="my-4">
@@ -165,13 +153,15 @@ function Chat() {
                     <Alert
                       key={index}
                       variant={
-                        jwtDecode(window.sessionStorage.getItem("jwt")).data
-                          .idusers === message.messages_user_sends
+                        jwt.data.idusers === message.messages_user_sends
                           ? "primary"
                           : "secondary"
                       }
                     >
                       {message.messages_text}
+                      <label className="float-end">
+                        {message.messages_creation_date}
+                      </label>
                     </Alert>
                   ))}
                 </Card.Body>
