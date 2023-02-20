@@ -3,7 +3,9 @@ import { Container } from "react-bootstrap";
 function Home() {
   return (
     <Container>
-      <h1>{"Hola mundo"}</h1>
+      <div className="my-5">
+        <h1>{"Home"}</h1>
+      </div>
     </Container>
   );
 }
