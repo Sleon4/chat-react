@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [users_email, setUsers_email] = useState("");
   const [users_password, setUsers_password] = useState("");
@@ -25,6 +26,12 @@ function Login() {
       }
     });
   };
+
+  useEffect(() => {
+    if (location.pathname != "/auth/login") {
+      navigate("/auth/login");
+    }
+  }, []);
 
   return (
     <Container>

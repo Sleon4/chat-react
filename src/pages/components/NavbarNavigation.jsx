@@ -10,14 +10,6 @@ function NavbarNavigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <LinkContainer to={"/"}>
-              <Nav.Link>
-                <i className="bi bi-bell-fill text-success"></i>
-              </Nav.Link>
-            </LinkContainer>
-          </Nav>
-
           <Nav className="ms-auto">
             <LinkContainer to={"/"}>
               <Nav.Link>{"Home"}</Nav.Link>
